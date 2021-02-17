@@ -29,3 +29,31 @@ fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this * n.inverse())
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale(i, n)) * n
 fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
+
+fun Canvas.drawMultiSideBar(scale : Float, w : Float, h : Float, paint : Paint) {
+    val size : Float = Math.min(w, h) / sizeFactor
+    val sf : Float = scale.sinify()
+    save()
+    translate(w / 2, h / 2)
+    for (j in 0..1) {
+        save()
+        scale(1f, 1f - 2 * j)
+        translate(0f, h / 2  * (1 - sf.divideScale(j, parts)))
+        drawRect(RectF(-w / 2, 0f, w / 2, size), paint)
+        restore()
+    }
+    for (j in 0..1) {
+        save()
+        scale(1f - 2 * j, 1f - 2 * j)
+        translate(w / 2 - w * sf.divideScale(2 + j, parts), size)
+        drawRect(RectF(0f, 0f, w, size), paint)
+        restore()
+    }
+    restore()
+}
+fun Canvas.drawMSBNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    paint.color = colors[i]
+    drawMultiSideBar(scale, w, h, paint)
+}
