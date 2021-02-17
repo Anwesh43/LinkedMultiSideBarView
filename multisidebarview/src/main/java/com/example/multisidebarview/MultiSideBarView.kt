@@ -209,4 +209,13 @@ class MultiSideBarView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : MultiSideBarView {
+            val view : MultiSideBarView = MultiSideBarView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
