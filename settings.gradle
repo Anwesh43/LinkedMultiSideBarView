@@ -1,0 +1,3 @@
+include ':multisidebarview'
+include ':app'
+rootProject.name = "LinkedMultiSideBarView"
